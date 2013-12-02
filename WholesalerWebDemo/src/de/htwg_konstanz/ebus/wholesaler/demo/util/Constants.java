@@ -59,6 +59,8 @@ public class Constants
     public static final String PARAM_XML_TEXT = "xmlText";
 	public static final String PARAM_NAME_ACTION = "action";
 	public static final String PARAM_ERROR_LIST = "errorList";
+	
+    public static final String PARAM_UPLOAD = "upload";
 
 	public static final int USER_INTERNAL = 1;
 	public static final int USER_CUSTOMER = 2;

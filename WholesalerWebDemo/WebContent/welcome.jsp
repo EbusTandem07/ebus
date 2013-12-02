@@ -1,4 +1,4 @@
-<%@ page session="true" %>
+<%@ page session="true"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
@@ -10,14 +10,14 @@
 </head>
 <body>
 
-<%@ include file="header.jsp" %>
-<%@ include file="error.jsp" %>
-<%@ include file="authentication.jsp" %>
-<%@ include file="navigation.jspfragment" %>
+	<%@ include file="header.jsp"%>
+	<%@ include file="error.jsp"%>
+	<%@ include file="authentication.jsp"%>
+	<%@ include file="navigation.jspfragment"%>
 
-<h1>Welcome!</h1>
-<div>
-<img src="images/overview.png">
-</div>
+	<h1>Welcome!</h1>
+	<div>
+		<img src="images/overview.png">
+	</div>
 </body>
 </html>
