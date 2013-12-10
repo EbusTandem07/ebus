@@ -9,7 +9,8 @@
 
 <html>
 <head>
-<title>eBusiness Framework Demo - Product List NEW</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>eBusiness Framework Demo - Import</title>
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="pragma" content="no-cache">
 <link rel="stylesheet" type="text/css" href="default.css">
@@ -19,16 +20,15 @@
 	<%@ include file="authentication.jsp"%>
 	<%@ include file="navigation.jspfragment"%>
 
-	<h1>Import</h1>
-	<br>
+	<h1>Export</h1>
+
+	<br />
 	<%@ include file="error.jsp"%>
 	<!-- checks if error List is eq 0, else errormessages available  -->
 	<c:if test="${fn:length(sessionScope.errorList) == 0}">
-		<p style="color: green">Import successful!</p>
+		<p style="color: green">Export successful!</p>
 	</c:if>
 
-
-	<input type=button name=go-back value=" Back "
-		onclick="javascript:history.back()">
 </body>
 </html>
+

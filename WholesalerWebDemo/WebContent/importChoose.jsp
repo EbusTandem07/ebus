@@ -11,26 +11,24 @@
 </head>
 <body>
 	<%@ include file="header.jsp"%>
-	<%@ include file="error.jsp"%>
 	<%@ include file="authentication.jsp"%>
 	<%@ include file="navigation.jspfragment"%>
 
 	<h1>Import</h1>
 
 	<br />
-	
+	<%@ include file="error.jsp"%>
 	<FORM
-		ACTION="<%= response.encodeURL("controllerservlet?action=upload") %>"
+		ACTION="<%=response.encodeURL("controllerservlet?action=upload")%>"
 		METHOD="post" enctype="multipart/form-data">
 
 		<input name="Datei" type="file" size="50" maxlength="100000"
-			accept="application/xml"> 
-			<br />
-		<input type="submit" value="Importieren">
+			accept=".xml"> <br /> <input type="submit"
+			value="Importieren">
 
 
 	</FORM>
-	
+
 </body>
 </html>
 

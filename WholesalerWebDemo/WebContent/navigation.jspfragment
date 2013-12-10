@@ -15,8 +15,14 @@
 <a href="<%= response.encodeURL("controllerservlet?action=showOrderList") %>">
 	<img alt="Orders" title="Orders" border="0" src="images/buttons/order.png">&nbsp;Orders
 </a>&nbsp;&nbsp;
+
+
+
 <a href="importChoose.jsp">
 	<img alt="Import" title="Import" border="0" src="images/buttons/import.png">&nbsp;Import
+</a>&nbsp;&nbsp;
+<a href="export.jsp">
+	<img alt="Import" title="Export" border="0" src="images/buttons/export.png">&nbsp;Export
 </a>&nbsp;&nbsp;
 
 

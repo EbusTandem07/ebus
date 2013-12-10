@@ -19,16 +19,26 @@
 	<%@ include file="authentication.jsp"%>
 	<%@ include file="navigation.jspfragment"%>
 
-	<h1>Import</h1>
-	<br>
+	<h1>Export</h1>
+
+	<br />
 	<%@ include file="error.jsp"%>
-	<!-- checks if error List is eq 0, else errormessages available  -->
-	<c:if test="${fn:length(sessionScope.errorList) == 0}">
-		<p style="color: green">Import successful!</p>
-	</c:if>
 
+	<form
+		action="<%=response.encodeURL("controllerservlet?action=export")%>"
+		method="POST">
+		<input name="Datei" type="submit" value="start export">
+	</form>
 
-	<input type=button name=go-back value=" Back "
-		onclick="javascript:history.back()">
+	<form
+		action=" <%=response.encodeURL("controllerservlet?action=export")%>"
+		method="post">
+		<p>
+			search<br>
+			<input name="search" type="text" size="12" maxlength="256">
+		</p>
+		<input type="submit" value="suchen" name="search">
+	</form>
+
 </body>
 </html>
