@@ -10,10 +10,7 @@ import de.htwg_konstanz.ebus.wholesaler.demo.util.Constants;
 
 public class SupplierHelper {
 
-    private String supplierNumber;
-
-
-    public SupplierHelper(String CompanyName) throws Exception {
+    public static String saveNewSupplier(String CompanyName) throws Exception {
         // just as an example DE
         BOCountry country =
                 CountryBOA.getInstance().findCountry(Constants.DEFAULT_COUNTRY_ISO_CODE);
@@ -43,17 +40,9 @@ public class SupplierHelper {
 
         SupplierBOA.getInstance().saveOrUpdate(supplierBO);
 
-        this.setSupplierNumber(supplierBO.getSupplierNumber());
+        return supplierBO.getSupplierNumber();
 
 
     }
 
-
-    public void setSupplierNumber(String supplierNumber) {
-        this.supplierNumber = supplierNumber;
-    }
-
-    public String getSupplierNumber() {
-        return supplierNumber;
-    }
 }

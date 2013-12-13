@@ -64,8 +64,8 @@ public class ImportDom {
 
         // create new Supplier
         if (bOSupplier == null) {
-            SupplierHelper supplierDB = new SupplierHelper(supplierName);
-            supplierNumber = supplierDB.getSupplierNumber();
+         //saves new Supplier and return corresponding supplierNumber
+          supplierNumber = SupplierHelper.saveNewSupplier(supplierName);
         }
 
         // get all articles as Nodelist from uploaded xml
@@ -147,37 +147,15 @@ public class ImportDom {
                                 (Element) artikelPrice.getElementsByTagName("PRICE_AMOUNT").item(0);
                         // convertElementToHtml(price_amount);
                         BigDecimal price_amount_value = getBigD(price_amount);
-                        
+
                         Element tax = (Element) artikelPrice.getElementsByTagName("TAX").item(0);
-                        BigDecimal taxValue =getBigD(tax);
+                        BigDecimal taxValue = getBigD(tax);
 
                         NodeList territoryList = artikelPrice.getElementsByTagName("TERRITORY");
 
-
                         // save saleprice for each territory
-                        for (int a = 0; a < territoryList.getLength(); a++) {
+                        SalesPriceHelper.saveSalesPrice(territoryList, bOProduct, taxValue, price_amount_value, price_type);
 
-                            Element isocode = (Element) territoryList.item(a);
-                            String iso = isocode.getFirstChild().getNodeValue();
-
-                            Country country = new Country(iso);
-                            BOCountry bOCountry = new BOCountry(country);
-
-                            // create a sales price
-                            BOSalesPrice salesPrice = new BOSalesPrice();
-                            salesPrice.setProduct(bOProduct);
-                            salesPrice.setCountry(bOCountry);
-                            salesPrice
-                                    .setLowerboundScaledprice(Constants.DEFAULT_LOWERBOUND_SCALED_PRICE);
-                            salesPrice.setPricetype(price_type);
-                            // tax-value needs to be parsed as double
-                            salesPrice.setTaxrate(taxValue);
-                            salesPrice.setAmount(price_amount_value);
-
-                            PriceBOA.getInstance().saveOrUpdateSalesPrice(salesPrice);
-                            _BaseBOA.getInstance().commit();
-
-                        }
                     }
 
                 }
