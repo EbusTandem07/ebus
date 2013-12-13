@@ -70,4 +70,6 @@ public class Constants {
     public static final int USER_INTERNAL = 1;
     public static final int USER_CUSTOMER = 2;
     public static final int USER_SUPPLIER = 3;
+    public static final String DEFAULT_COUNTRY_ISO_CODE = "DE";
+    public static final Integer DEFAULT_LOWERBOUND_SCALED_PRICE = 1;
 }

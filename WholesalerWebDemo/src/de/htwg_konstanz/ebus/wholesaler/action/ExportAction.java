@@ -31,6 +31,7 @@ public class ExportAction implements IAction {
         Products all;
         ByteArrayOutputStream out = null;
 
+        //apache string lang lib - if parameter search is set
         if (StringUtils.isNotBlank((String) request.getParameter("search"))) {
             String search = (String) request.getParameter("search");
             all = new Products(search);

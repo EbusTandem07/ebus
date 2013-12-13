@@ -1,6 +1,7 @@
 package de.htwg_konstanz.ebus.wholesaler.main;
 
 import java.io.StringWriter;
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.xml.parsers.FactoryConfigurationError;
@@ -12,10 +13,17 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
+import de.htwg_konstanz.ebus.framework.wholesaler.api.bo.BOCountry;
 import de.htwg_konstanz.ebus.framework.wholesaler.api.bo.BOProduct;
+import de.htwg_konstanz.ebus.framework.wholesaler.api.bo.BOSalesPrice;
 import de.htwg_konstanz.ebus.framework.wholesaler.api.bo.BOSupplier;
+import de.htwg_konstanz.ebus.framework.wholesaler.api.boa.PriceBOA;
+import de.htwg_konstanz.ebus.framework.wholesaler.api.boa.ProductBOA;
 import de.htwg_konstanz.ebus.framework.wholesaler.api.boa.SupplierBOA;
+import de.htwg_konstanz.ebus.framework.wholesaler.api.boa._BaseBOA;
+import de.htwg_konstanz.ebus.framework.wholesaler.vo.Country;
 import de.htwg_konstanz.ebus.wholesaler.demo.util.Constants;
 
 public class ImportDom {
@@ -28,7 +36,7 @@ public class ImportDom {
 
     public ImportDom(Document document) throws FactoryConfigurationError, Exception {
 
-        // testUploadedFile(document);
+         testUploadedFile(document);
 
         // get DocumentRoot -> <BMECAT>
         Element bmeCat = document.getDocumentElement();
@@ -36,30 +44,143 @@ public class ImportDom {
         String supplierName = tmpSupplierName.getTextContent();
 
         // test if supplier already exists: !if -> createNewSupplier
-        SupplierBOA sboa = SupplierBOA.getInstance();
+        SupplierBOA supplierBOA = SupplierBOA.getInstance();
 
-        List<BOSupplier> listeBOSupplier = sboa.findAll();
+        List<BOSupplier> bOSupplierList = supplierBOA.findAll();
+        BOSupplier bOSupplier = null;
 
-        for (BOSupplier supplier : listeBOSupplier) {
-            if (supplier.getCompanyname().equals(supplierName)) {
-                supplierExists = true;
-                
-                //TODO hier muss noch Liste gepackt werden und abfrage nach supplier ob in Liste nur 1 element
-//                BOSupplier supplierDB = (BOSupplier) SupplierBOA.getInstance().findByCompanyName(supplier.getCompanyname());
-//                supplierNumber = supplierDB.getSupplierNumber();
+        ProductBOA productBOA = ProductBOA.getInstance();
+        List<BOProduct> listeBOProduct = productBOA.findAll();
+
+        for (BOSupplier sup : bOSupplierList) {
+            if (sup.getCompanyname().equals(supplierName)) {
+                bOSupplier = sup;
+                supplierNumber = bOSupplier.getSupplierNumber();
                 break;
             }
         }
 
         // create new Supplier
-        if (!supplierExists) {
-            NewSupplier nS = new NewSupplier(supplierName);
-            supplierNumber = nS.getSupplierNumber();
+        if (bOSupplier == null) {
+            SupplierHelper supplierDB = new SupplierHelper(supplierName);
+            supplierNumber = supplierDB.getSupplierNumber();
         }
-        
 
+        // get all articles as Nodelist from uploaded xml
+        NodeList articles = bmeCat.getElementsByTagName("ARTICLE");
+
+        // loop over articles if exists and not null
+        if (articles.getLength() > 0 && articles != null) {
+
+            for (int i = 0; i < articles.getLength(); i++) {
+
+                // get all values
+                Element article = (Element) articles.item(i);
+
+                Element supplier_aid =
+                        (Element) article.getElementsByTagName("SUPPLIER_AID").item(0);
+
+                String textsupplier_aid = supplier_aid.getFirstChild().getNodeValue();
+
+                Element article_details =
+                        (Element) article.getElementsByTagName("ARTICLE_DETAILS").item(0);
+
+                Element description_short =
+                        (Element) article_details.getElementsByTagName("DESCRIPTION_SHORT").item(0);
+
+                String desShort = description_short.getFirstChild().getNodeValue();
+
+                Element description_long =
+                        (Element) article_details.getElementsByTagName("DESCRIPTION_LONG").item(0);
+
+                String desLong = description_long.getFirstChild().getNodeValue();
+
+                // create Product and set values
+                BOProduct bOProduct = new BOProduct();
+
+
+                bOProduct.setSupplier(SupplierBOA.getInstance().findSupplierById(supplierNumber));
+                bOProduct.setShortDescription(desShort);
+                bOProduct.setLongDescription(desLong);
+                bOProduct.setOrderNumberCustomer(textsupplier_aid);
+                bOProduct.setOrderNumberSupplier(textsupplier_aid);
+
+
+                // delete product because update doesnt work for somereason, maybe bug
+                if (listeBOProduct != null) {
+                    for (BOProduct boppi : listeBOProduct) {
+                        if (boppi.getOrderNumberCustomer().equals(bOProduct.getOrderNumberCustomer())) {
+                            productBOA.delete(boppi);
+
+                        }
+                    }
+                }
+
+                _BaseBOA.getInstance().commit();
+                productBOA.saveOrUpdate(bOProduct);
+               
+                
+                Integer materialnumber = null;
+                materialnumber = bOProduct.getMaterialNumber();
+
+
+
+                // get pricedetails from article
+                Element priceDetails =
+                        (Element) article.getElementsByTagName("ARTICLE_PRICE_DETAILS").item(0);
+
+
+                // loop over all ARTICLE_PRICE to save in table
+                NodeList articlePriceList = priceDetails.getElementsByTagName("ARTICLE_PRICE");
+
+                if (articlePriceList.getLength() > 0 && articlePriceList != null) {
+                    for (int j = 0; j < articlePriceList.getLength(); j++) {
+
+                        Element artikelPrice = (Element) articlePriceList.item(j);
+
+                        String price_type = artikelPrice.getAttribute("price_type");
+
+                        Element price_amount =
+                                (Element) artikelPrice.getElementsByTagName("PRICE_AMOUNT").item(0);
+
+                        BigDecimal price_amount_value = new BigDecimal(price_amount.getNodeValue());
+
+                        Element tax = (Element) artikelPrice.getElementsByTagName("TAX").item(0);
+                        BigDecimal taxValue = new BigDecimal(tax.getNodeValue());
+                        
+                        NodeList territoryList = artikelPrice.getElementsByTagName("TERRITORY");
+
+
+                        // save saleprice for each territory
+                        for (int a = 0; a < territoryList.getLength(); a++) {
+
+                            Element isocode = (Element) territoryList.item(a);
+                            String iso = isocode.getFirstChild().getNodeValue();
+
+                            Country country = new Country(iso);
+                            BOCountry bOCountry = new BOCountry(country);
+
+                            // create a sales price
+                            BOSalesPrice salesPrice = new BOSalesPrice();
+                            salesPrice.setProduct(bOProduct);
+                            salesPrice.setCountry(bOCountry);
+                            salesPrice
+                                    .setLowerboundScaledprice(Constants.DEFAULT_LOWERBOUND_SCALED_PRICE);
+                            salesPrice.setPricetype(price_type);
+                            //tax-value needs to be parsed as double
+                            salesPrice.setTaxrate(taxValue);
+                            salesPrice.setAmount(price_amount_value);
+
+                            PriceBOA.getInstance().saveOrUpdateSalesPrice(salesPrice);
+                            _BaseBOA.getInstance().commit();
+
+                        }
+                    }
+
+                }
+            }
+        }
     }
-
 
     private void testUploadedFile(Document document) {
         try {
@@ -74,14 +195,6 @@ public class ImportDom {
             ex.printStackTrace();
         }
     }
-
-
-    public static void artikeln(Element artikel, BOProduct bp, int materialnumber, String desShort,
-            String supplierNummer) {
-
-
-    }
-
 
 
 }
