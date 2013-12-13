@@ -100,11 +100,9 @@ public class UploadAction implements IAction {
                         try {
                             new ImportDom(document);
                         } catch (FactoryConfigurationError e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
+                            errorList.add("couldnt convert");
                         } catch (Exception e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
+                            errorList.add("error occured, some Elements couldnt be found in database");
                         }
                     }
 
