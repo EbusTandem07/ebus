@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import javax.xml.parsers.FactoryConfigurationError;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -13,6 +14,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import de.htwg_konstanz.ebus.framework.wholesaler.api.bo.BOCountry;
@@ -36,7 +38,7 @@ public class ImportDom {
 
     public ImportDom(Document document) throws FactoryConfigurationError, Exception {
 
-         testUploadedFile(document);
+        // testUploadedFile(document);
 
         // get DocumentRoot -> <BMECAT>
         Element bmeCat = document.getDocumentElement();
@@ -109,7 +111,8 @@ public class ImportDom {
                 // delete product because update doesnt work for somereason, maybe bug
                 if (listeBOProduct != null) {
                     for (BOProduct boppi : listeBOProduct) {
-                        if (boppi.getOrderNumberCustomer().equals(bOProduct.getOrderNumberCustomer())) {
+                        if (boppi.getOrderNumberCustomer().equals(
+                                bOProduct.getOrderNumberCustomer())) {
                             productBOA.delete(boppi);
 
                         }
@@ -118,8 +121,8 @@ public class ImportDom {
 
                 _BaseBOA.getInstance().commit();
                 productBOA.saveOrUpdate(bOProduct);
-               
-                
+
+
                 Integer materialnumber = null;
                 materialnumber = bOProduct.getMaterialNumber();
 
@@ -142,12 +145,12 @@ public class ImportDom {
 
                         Element price_amount =
                                 (Element) artikelPrice.getElementsByTagName("PRICE_AMOUNT").item(0);
-
-                        BigDecimal price_amount_value = new BigDecimal(price_amount.getNodeValue());
-
-                        Element tax = (Element) artikelPrice.getElementsByTagName("TAX").item(0);
-                        BigDecimal taxValue = new BigDecimal(tax.getNodeValue());
+                        // convertElementToHtml(price_amount);
+                        BigDecimal price_amount_value = getBigD(price_amount);
                         
+                        Element tax = (Element) artikelPrice.getElementsByTagName("TAX").item(0);
+                        BigDecimal taxValue =getBigD(tax);
+
                         NodeList territoryList = artikelPrice.getElementsByTagName("TERRITORY");
 
 
@@ -167,7 +170,7 @@ public class ImportDom {
                             salesPrice
                                     .setLowerboundScaledprice(Constants.DEFAULT_LOWERBOUND_SCALED_PRICE);
                             salesPrice.setPricetype(price_type);
-                            //tax-value needs to be parsed as double
+                            // tax-value needs to be parsed as double
                             salesPrice.setTaxrate(taxValue);
                             salesPrice.setAmount(price_amount_value);
 
@@ -196,5 +199,21 @@ public class ImportDom {
         }
     }
 
+    public void convertElementToHtml(Element element) throws TransformerException {
+        Transformer t = TransformerFactory.newInstance().newTransformer();
+        t.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+        StringWriter sw = new StringWriter();
+        t.transform(new DOMSource(element), new StreamResult(sw));
+        System.out.println(sw.toString());
+    }
+
+    public BigDecimal getBigD(Element element) {
+        double tempPRICE_AMOUNT = Double.valueOf(element.getFirstChild().getNodeValue());
+
+
+        BigDecimal price_amount_value = BigDecimal.valueOf(tempPRICE_AMOUNT);
+
+        return price_amount_value;
+    }
 
 }
