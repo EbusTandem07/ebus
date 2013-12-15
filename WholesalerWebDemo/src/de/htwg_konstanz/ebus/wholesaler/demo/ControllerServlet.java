@@ -155,7 +155,7 @@ public class ControllerServlet extends HttpServlet {
 					response.sendRedirect(response
 							.encodeRedirectURL(redirectURL));
 
-					return;
+			
 				}
 			}
 		}

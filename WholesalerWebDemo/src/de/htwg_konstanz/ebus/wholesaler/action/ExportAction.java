@@ -52,8 +52,10 @@ public class ExportAction implements IAction {
 
             System.out.println("Vor Response: " + out.toString());
 
-            response.setContentLength((int) out.size());
+ //       response.setContentLength((int) out.size());
+            
             response.setContentType("application/octet-stream");
+            response.setContentLength(out.size());
             response.setHeader("Content-Disposition", type.toString());
             response.getWriter().write(out.toString());
 

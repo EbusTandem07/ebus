@@ -66,6 +66,7 @@ public class Constants {
 
     public static final String PARAM_UPLOAD = "upload";
     public static final String PARAM_EXPORT = "export";
+    public static final String PARAM_XHTMLTRANSFORMATION = "xhtmlTransformation"; 
 
     public static final int USER_INTERNAL = 1;
     public static final int USER_CUSTOMER = 2;

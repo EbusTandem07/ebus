@@ -39,6 +39,13 @@
 		</p>
 		<input type="submit" value="suchen" name="search">
 	</form>
+	
+	<form
+		action=" <%=response.encodeURL("controllerservlet?action=xhtmlTransformation")%>"
+		method="post">
+
+		<input type="submit" value="Transformation">
+	</form>
 
 </body>
 </html>
