@@ -72,7 +72,7 @@ public class ExportAction implements IAction {
                 //XHTML transformation
                 Source xslt =
                         new StreamSource(
-                                "C:/Users/Valia/Documents/GitHub/ebus/WholesalerWebDemo/files/style3.xsl");
+                                Constants.XSLT_PATH);
 
                 Transformer xformer = TransformerFactory.newInstance().newTransformer(xslt);
                 //needs to be this encoding because of "ß"

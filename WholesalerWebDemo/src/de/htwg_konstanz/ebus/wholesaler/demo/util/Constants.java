@@ -1,11 +1,13 @@
 package de.htwg_konstanz.ebus.wholesaler.demo.util;
 
+
 public class Constants {
     // XML schemata files
     public static final String XML_SCHEMA_BMECAT = "bmecat_new_catalog_1_2_simple_eps_V0.96.xsd";
     public static final String XML_SCHEMA_OPENTRANS = "openTRANS_1_0.xsd";
     public static final String XSD_VALIDATION_FILEPATH = "C:/Users/Valia/Documents/GitHub/ebus/WholesalerWebDemo/bmecat_new_catalog_1_2_simple_without_NS.xsd";
-
+    public static final String XSLT_PATH = "C:/Users/Valia/Documents/GitHub/ebus/WholesalerWebDemo/files/style3.xsl";
+    
     public static final String ACTION_SHOW_ORDER_CUSTOMER_REQUEST_XML =
             "showOrderCustomerRequestXml";
     public static final String ACTION_SHOW_ORDER_CUSTOMER_RESPONSE_XML =
@@ -73,4 +75,5 @@ public class Constants {
     public static final int USER_SUPPLIER = 3;
     public static final String DEFAULT_COUNTRY_ISO_CODE = "DE";
     public static final Integer DEFAULT_LOWERBOUND_SCALED_PRICE = 1;
+
 }
