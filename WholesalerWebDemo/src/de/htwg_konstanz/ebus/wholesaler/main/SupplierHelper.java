@@ -26,7 +26,7 @@ public class SupplierHelper {
             throw new Exception("No Country found");
         }
 
-        // adress
+        // create adress
         BOAddress address = new BOAddress();
         address.setStreet("TestStrasse");
         address.setZipcode("TestZipCode");
@@ -34,6 +34,7 @@ public class SupplierHelper {
         address.setCountry(country);
         AddressBOA.getInstance().saveOrUpdate(address);
 
+        //create Supplier
         BOSupplier supplierBO = new BOSupplier();
         supplierBO.setAddress(address);
         supplierBO.setFirstname("KN Media");
@@ -46,7 +47,6 @@ public class SupplierHelper {
         supplierBO.setCompanyname(companyName);
 
         SupplierBOA.getInstance().saveOrUpdate(supplierBO);
-        System.out.println("uplier3");
         return supplierBO.getSupplierNumber();
 
 

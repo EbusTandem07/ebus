@@ -39,8 +39,8 @@
 		action=" <%=response.encodeURL("controllerservlet?action=" + Constants.ACTION_EXPORT)%>"
 		method="post">
 		<p>
-			<input type="submit" value="suchen" name="search"> search and
-			export: <input name="search" type="text" size="12" maxlength="256">
+			<input type="submit" value="start" name="search"> search and
+			export: <input name="searchString" type="text" size="12" maxlength="256">
 		</p>
 
 	</form>

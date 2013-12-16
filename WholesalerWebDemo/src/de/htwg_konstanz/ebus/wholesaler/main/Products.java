@@ -28,7 +28,7 @@ public class Products {
     /**
      * constructor, if no Search argument is given.
      */
-    // das als erstes
+
     public Products() {
         this.productList = ProductBOA.getInstance().findAll();
     }
