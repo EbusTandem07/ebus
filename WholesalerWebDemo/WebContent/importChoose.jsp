@@ -19,7 +19,7 @@
 	<br />
 	<%@ include file="error.jsp"%>
 	<FORM
-		ACTION="<%=response.encodeURL("controllerservlet?action=upload")%>"
+		ACTION="<%=response.encodeURL("controllerservlet?action="+Constants.ACTION_UPLOAD)%>"
 		METHOD="post" enctype="multipart/form-data">
 
 		<input name="Datei" type="file" size="50" maxlength="100000"

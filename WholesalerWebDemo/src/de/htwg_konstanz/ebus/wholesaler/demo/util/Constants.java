@@ -64,8 +64,8 @@ public class Constants {
     public static final String PARAM_NAME_ACTION = "action";
     public static final String PARAM_ERROR_LIST = "errorList";
 
-    public static final String PARAM_UPLOAD = "upload";
-    public static final String PARAM_EXPORT = "export";
+    public static final String ACTION_UPLOAD = "upload";
+    public static final String ACTION_EXPORT = "export";
     public static final String PARAM_XHTMLTRANSFORMATION = "xhtmlTransformation"; 
 
     public static final int USER_INTERNAL = 1;

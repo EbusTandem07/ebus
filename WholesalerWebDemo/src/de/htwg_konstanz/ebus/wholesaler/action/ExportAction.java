@@ -31,14 +31,20 @@ public class ExportAction implements IAction {
             ArrayList<String> errorList) {
         Products all;
         ByteArrayOutputStream out = null;
-
+        String search = null;
+        String option = null;
 
         // apache string lang lib - if parameter search is set
         if (StringUtils.isNotBlank((String) request.getParameter("search"))) {
-            String search = (String) request.getParameter("search");
+            search = (String) request.getParameter("search");
             all = new Products(search);
         } else {
             all = new Products();
+        }
+
+        // check if option is set
+        if (StringUtils.isNotBlank((String) request.getParameter("exportType"))) {
+            option = request.getParameter("exportType");
         }
 
         try {
@@ -47,11 +53,12 @@ public class ExportAction implements IAction {
             DOMSource domSource = new DOMSource(doc);
             out = new ByteArrayOutputStream();
             String type = "";
-            String option = request.getParameter("exportType");
+
             String applicationType = "";
-            
+
             // check radioButton if XML was selected, otherwise make XHTML export
-            if (option.equals("XML")) {
+            //or if normal xml
+            if (checkXML(search, option)) {
 
                 Transformer transformer = TransformerFactory.newInstance().newTransformer();
                 transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
@@ -77,34 +84,30 @@ public class ExportAction implements IAction {
             response.setContentType(applicationType);
             response.setContentLength(out.size());
             response.getWriter().write(out.toString());
-            
+
 
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            errorList.add("problem occured");
 
         } catch (TransformerConfigurationException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            errorList.add("problem occured due transformation");
 
         } catch (TransformerFactoryConfigurationError e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            errorList.add("problem occured due transformation");
 
         } catch (TransformerException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            errorList.add("problem occured due transformation");
 
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();
+            errorList.add("problem occured at connection");
 
         } finally {
             try {
                 out.flush();
                 out.close();
+                response.getWriter().close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+
             }
 
         }
@@ -114,6 +117,18 @@ public class ExportAction implements IAction {
     }
 
     public boolean accepts(String actionName) {
-        return actionName.equalsIgnoreCase(Constants.PARAM_EXPORT);
+        return actionName.equalsIgnoreCase(Constants.ACTION_EXPORT);
+    }
+    
+    public boolean checkXML(String search, String option) {
+        System.out.println(option);
+        if(search != null) {
+            return true;
+        } else if(option != null && option == "XML") {
+            return true;
+        } else {
+            return false;
+        }
+       
     }
 }
