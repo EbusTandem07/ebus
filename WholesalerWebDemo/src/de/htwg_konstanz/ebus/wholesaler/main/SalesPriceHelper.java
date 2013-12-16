@@ -16,8 +16,18 @@ import de.htwg_konstanz.ebus.wholesaler.demo.util.Constants;
 public class SalesPriceHelper {
     public SalesPriceHelper() {}
 
-    public static void saveSalesPrice(NodeList nodeList, BOProduct boProduct,
-            BigDecimal taxValue, BigDecimal price_amount_value, String price_type) {
+    /**
+     * 
+     * @param nodeList
+     * @param boProduct
+     * @param taxValue
+     * @param price_amount_value
+     * @param price_type
+     * 
+     *        creates and saves salesPrice's from a NodeList
+     */
+    public static void saveSalesPrice(NodeList nodeList, BOProduct boProduct, BigDecimal taxValue,
+            BigDecimal price_amount_value, String price_type) {
         for (int a = 0; a < nodeList.getLength(); a++) {
 
             Element isocode = (Element) nodeList.item(a);

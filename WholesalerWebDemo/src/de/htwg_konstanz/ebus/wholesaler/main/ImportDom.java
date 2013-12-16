@@ -60,7 +60,7 @@ public class ImportDom {
         // create new Supplier
         if (bOSupplier == null) {
             // saves new Supplier and return corresponding supplierNumber
-           // supplierNumber = SupplierHelper.saveNewSupplier(supplierName);
+            // supplierNumber = SupplierHelper.saveNewSupplier(supplierName);
             throw new SupplierNotExistsException();
         }
 
@@ -118,10 +118,10 @@ public class ImportDom {
                 _BaseBOA.getInstance().commit();
                 productBOA.saveOrUpdate(bOProduct);
 
-                Integer materialnumber = null;
-                materialnumber = bOProduct.getMaterialNumber();
+                Integer materialNumber = null;
+                materialNumber = bOProduct.getMaterialNumber();
 
-                // get pricedetails from article
+                // get priceDetails from article
                 Element priceDetails =
                         (Element) article.getElementsByTagName("ARTICLE_PRICE_DETAILS").item(0);
 
@@ -145,7 +145,7 @@ public class ImportDom {
 
                         NodeList territoryList = artikelPrice.getElementsByTagName("TERRITORY");
 
-                        // save saleprice for each territory
+                        // save salesPrice for each territory
                         SalesPriceHelper.saveSalesPrice(territoryList, bOProduct, taxValue,
                                 price_amount_value, price_type);
 
@@ -156,6 +156,10 @@ public class ImportDom {
         }
     }
 
+    /**
+     * 
+     * @param document {@link Document} Writes a whole Document to String in Console
+     */
     private void testUploadedFile(Document document) {
         try {
             DOMSource domSource = new DOMSource(document);
@@ -170,6 +174,13 @@ public class ImportDom {
         }
     }
 
+    /**
+     * 
+     * @param element {@link Element}
+     * @throws TransformerException
+     * 
+     *         Writes an explicit Element to String in Console
+     */
     public void convertElementToHtml(Element element) throws TransformerException {
         Transformer t = TransformerFactory.newInstance().newTransformer();
         t.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
@@ -178,6 +189,12 @@ public class ImportDom {
         System.out.println(sw.toString());
     }
 
+    /**
+     * @param element {@link Element}
+     * @return {@link BigDecimal}
+     * 
+     *         gets the textValue of an Element and returns as BigDecimal
+     */
     public BigDecimal getBigD(Element element) {
         double tempPRICE_AMOUNT = Double.valueOf(element.getFirstChild().getNodeValue());
         BigDecimal price_amount_value = BigDecimal.valueOf(tempPRICE_AMOUNT);

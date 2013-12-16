@@ -28,7 +28,8 @@
 	<c:if test="${fn:length(sessionScope.errorList) == 0}">
 		<p style="color: green">Export successful!</p>
 	</c:if>
-
+	<input type=button name=go-back value=" Back "
+		onclick="javascript:history.back()">
 </body>
 </html>
 

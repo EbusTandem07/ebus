@@ -60,7 +60,7 @@ public class Products {
     /**
      * this method creates a xml-file.
      * 
-     * @return the created file
+     * @return bmeCat {@link Document} the created file
      * @throws TransformerFactoryConfigurationError
      * @throws TransformerException
      */
@@ -99,7 +99,7 @@ public class Products {
      * 
      * @param bmeCatdoc is root element in document
      * @param product
-     * @return structure as xml
+     * @return article {@link Element} -> structure as XML
      */
     private Element createAricle(final Document bmeCatdoc, BOProduct product) {
         Element article = bmeCatdoc.createElement("ARTICLE");

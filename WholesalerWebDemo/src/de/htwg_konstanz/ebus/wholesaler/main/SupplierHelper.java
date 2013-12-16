@@ -10,6 +10,14 @@ import de.htwg_konstanz.ebus.wholesaler.demo.util.Constants;
 
 public class SupplierHelper {
 
+    /**
+     * 
+     * @param CompanyName
+     * @return supplierNumber 
+     * @throws Exception
+     * 
+     * save new Supplier in dataBase
+     */
     public static String saveNewSupplier(String CompanyName) throws Exception {
         // just as an example DE
         BOCountry country =

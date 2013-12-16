@@ -16,6 +16,7 @@
 .settings/
 .loadpath
 *javadoc/
+*.class
 
 # External tool builders
 .externalToolBuilders/
