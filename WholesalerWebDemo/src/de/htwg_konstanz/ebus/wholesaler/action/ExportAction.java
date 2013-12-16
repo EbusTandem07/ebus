@@ -64,10 +64,10 @@ public class ExportAction implements IAction {
 
                 Source xslt =
                         new StreamSource(
-                                "C:/Users/Valia/Documents/GitHub/ebus/WholesalerWebDemo/files/style3.xsl");
+                                "C:\\xml\\style3.xsl");
 
                 Transformer xformer = TransformerFactory.newInstance().newTransformer(xslt);
-                xformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+                xformer.setOutputProperty(OutputKeys.ENCODING, "ISO-8859-1");
                 xformer.transform(domSource, new StreamResult(out));
                 type = "attachment; filename=exportProduct.xhtml";
                 applicationType = "application/xhtml";
