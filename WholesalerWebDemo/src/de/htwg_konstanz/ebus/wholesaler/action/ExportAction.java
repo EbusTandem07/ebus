@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -14,6 +15,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.commons.lang3.StringUtils;
@@ -31,7 +33,8 @@ public class ExportAction implements IAction {
         Products all;
         ByteArrayOutputStream out = null;
 
-        //apache string lang lib - if parameter search is set
+
+        // apache string lang lib - if parameter search is set
         if (StringUtils.isNotBlank((String) request.getParameter("search"))) {
             String search = (String) request.getParameter("search");
             all = new Products(search);
@@ -43,17 +46,32 @@ public class ExportAction implements IAction {
 
             Document doc = all.createXMLdocument();
             DOMSource domSource = new DOMSource(doc);
-
-            Transformer transformer = TransformerFactory.newInstance().newTransformer();
-            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
             out = new ByteArrayOutputStream();
-            transformer.transform(domSource, new StreamResult(out));
-            StringBuilder type = new StringBuilder("attachment; filename=exportProduct.xml");
+            StringBuilder type = null;
+            String option = request.getParameter("exportType");
+            System.out.println(option);
+            // check radioButton if XML was selected, otherwise make XHTML export
+            if (option.equals("XML")) {
 
-            System.out.println("Vor Response: " + out.toString());
+                Transformer transformer = TransformerFactory.newInstance().newTransformer();
+                transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 
- //       response.setContentLength((int) out.size());
-            
+                transformer.transform(domSource, new StreamResult(out));
+                type = new StringBuilder("attachment; filename=exportProduct.xml");
+
+            } else {
+                System.out.println("not xml");
+                Source xslt =
+                        new StreamSource(
+                                "C:/Users/Valia/Documents/GitHub/ebus/WholesalerWebDemo/files/style3.xsl");
+
+                Transformer xformer = TransformerFactory.newInstance().newTransformer(xslt);
+                xformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+                xformer.transform(domSource, new StreamResult(out));
+                type = new StringBuilder("attachment; filename=exportProduct.xhtml");
+            }
+
+
             response.setContentType("application/octet-stream");
             response.setContentLength(out.size());
             response.setHeader("Content-Disposition", type.toString());
@@ -90,8 +108,8 @@ public class ExportAction implements IAction {
         }
 
         return null;
-    }
 
+    }
 
     public boolean accepts(String actionName) {
         return actionName.equalsIgnoreCase(Constants.PARAM_EXPORT);

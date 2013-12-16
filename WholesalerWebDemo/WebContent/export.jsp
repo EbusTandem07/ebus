@@ -27,24 +27,18 @@
 	<form
 		action="<%=response.encodeURL("controllerservlet?action=export")%>"
 		method="POST">
-		<input name="Datei" type="submit" value="start export">
+		<input name="Datei" type="submit" value="start export"> 
+		<input type="radio" name="exportType" value="XML" checked>XML <input type="radio" name="exportType" value="XHTML"> XHTML<br>
 	</form>
 
 	<form
 		action=" <%=response.encodeURL("controllerservlet?action=export")%>"
 		method="post">
 		<p>
-			search<br>
-			<input name="search" type="text" size="12" maxlength="256">
+			search<br> <input name="search" type="text" size="12"
+				maxlength="256">
 		</p>
 		<input type="submit" value="suchen" name="search">
-	</form>
-	
-	<form
-		action=" <%=response.encodeURL("controllerservlet?action=xhtmlTransformation")%>"
-		method="post">
-
-		<input type="submit" value="Transformation">
 	</form>
 
 </body>
