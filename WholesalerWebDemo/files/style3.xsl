@@ -2,7 +2,8 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 	<xsl:output doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" encoding="ISO-8859-1"/>
 	<xsl:template match="/">
-		<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+		<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de">
+		<head><title>Produktkatalog</title></head>
 			<body>
 			<h1>Produktkatalog</h1>
 			<xsl:apply-templates select="//HEADER" />
