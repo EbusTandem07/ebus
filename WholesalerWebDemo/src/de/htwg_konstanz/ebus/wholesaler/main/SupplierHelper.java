@@ -18,7 +18,7 @@ public class SupplierHelper {
      * 
      * save new Supplier in dataBase
      */
-    public static String saveNewSupplier(String CompanyName) throws Exception {
+    public static String saveNewSupplier(String companyName) throws Exception {
         // just as an example DE
         BOCountry country =
                 CountryBOA.getInstance().findCountry(Constants.DEFAULT_COUNTRY_ISO_CODE);
@@ -43,11 +43,10 @@ public class SupplierHelper {
         supplierBO.setWsCatalogEndpoint("http://localhost:8080/ess/ProductCatalogService");
         supplierBO.setWsOrderEndpoint("http://localhost:8080/ess/OrderService");
 
-
-        supplierBO.setCompanyname(CompanyName);
+        supplierBO.setCompanyname(companyName);
 
         SupplierBOA.getInstance().saveOrUpdate(supplierBO);
-
+        System.out.println("uplier3");
         return supplierBO.getSupplierNumber();
 
 

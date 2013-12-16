@@ -57,9 +57,7 @@ public class SalesPurchasePriceHelper {
             purchasePrice.setProduct(boProduct);
             purchasePrice.setCountry(bOCountry);
             purchasePrice.setLowerboundScaledprice(Constants.DEFAULT_LOWERBOUND_SCALED_PRICE);
-            System.out.println(purchasePrice.getProduct().product);
-            System.out.println(purchasePrice.getCountry().country);
-            System.out.println(purchasePrice.getLowerboundScaledprice());
+
             _BaseBOA.getInstance().commit();
             PriceBOA.getInstance().saveOrUpdate(purchasePrice);
 

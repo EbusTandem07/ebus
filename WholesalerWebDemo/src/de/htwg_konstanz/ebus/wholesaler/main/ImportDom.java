@@ -38,7 +38,7 @@ public class ImportDom {
         // get DocumentRoot -> <BMECAT>
         Element bmeCat = document.getDocumentElement();
         Element tmpSupplierName = (Element) bmeCat.getElementsByTagName("SUPPLIER_NAME").item(0);
-        String supplierName = tmpSupplierName.getNodeValue();
+        String supplierName = tmpSupplierName.getTextContent();
 
         // test if supplier already exists: !if -> createNewSupplier
         SupplierBOA supplierBOA = SupplierBOA.getInstance();
@@ -47,6 +47,7 @@ public class ImportDom {
         BOSupplier bOSupplier = null;
 
         ProductBOA productBOA = ProductBOA.getInstance();
+
         List<BOProduct> listeBOProduct = productBOA.findAll();
 
         for (BOSupplier sup : bOSupplierList) {
@@ -56,14 +57,12 @@ public class ImportDom {
                 break;
             }
         }
-
         // create new Supplier
         if (bOSupplier == null) {
             // saves new Supplier and return corresponding supplierNumber
              supplierNumber = SupplierHelper.saveNewSupplier(supplierName);
             //throw new SupplierNotExistsException();
         }
-
         // get all articles as Nodelist from uploaded xml
         NodeList articles = bmeCat.getElementsByTagName("ARTICLE");
 
