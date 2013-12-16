@@ -62,9 +62,9 @@ public class UploadAction implements IAction {
                     if (!item.isFormField()) {
 
                         String fileName = item.getName();
-if(fileName.length() == 0) {
-    throw new NoFileChosenException();
-}
+                        if (fileName.length() == 0) {
+                            throw new NoFileChosenException();
+                        }
                         // xsd, xslt are also text/xml
                         String extension =
                                 fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length());
@@ -92,13 +92,13 @@ if(fileName.length() == 0) {
                             errorList.add("not a xml file or no file choosed");
                             return "importResult.jsp";
                         }
-                        
+
                         schema1 = factorySchema.newSchema(schemaPath);
                         Validator validator = schema1.newValidator();
 
                         // throws SaxException/IOException
                         validator.validate(new DOMSource(document));
-                        
+
                         // File uploaded should be successful here
                         try {
                             new ImportDom(document);
@@ -106,31 +106,29 @@ if(fileName.length() == 0) {
                             errorList.add("couldnt convert");
                         } catch (SupplierNotExistsException e) {
                             errorList.add("Supplier not found in database");
-                        }catch (Exception e) {
-                            errorList.add("error occured, some Elements couldnt be found in database");
+                        } catch (Exception e) {
+                            errorList
+                                    .add("error occured, some Elements couldnt be found in database");
                         }
                     }
-
                 }
-                //render Result, all errors are already in errorList
+                // render Result, all errors are already in errorList
                 return "importResult.jsp";
-                
+
             } catch (FileUploadException ex) {
                 errorList.add("File Upload Failed due to " + ex);
             } catch (IOException ex) {
                 // validate
                 errorList.add("ValidationError " + ex);
-
             } catch (ParserConfigurationException ex) {
                 // from DocumentBuilder
                 errorList.add("DocumentBuilder Error: " + ex);
-
             } catch (SAXException ex) {
                 // from validate
                 errorList.add("ValidationError " + ex);
             } catch (NoFileChosenException e) {
                 errorList.add("no file chosen");
-            } 
+            }
 
         } else {
             errorList.add("Sorry this Servlet only handles file upload request");
