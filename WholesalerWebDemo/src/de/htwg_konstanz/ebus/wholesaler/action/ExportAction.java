@@ -62,7 +62,7 @@ public class ExportAction implements IAction {
             if (checkXML(search, option)) {
 
                 Transformer transformer = TransformerFactory.newInstance().newTransformer();
-                transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+                transformer.setOutputProperty(OutputKeys.ENCODING, "ISO-8859-1");
 
                 transformer.transform(domSource, new StreamResult(out));
                 type = "attachment; filename=exportProduct.xml";
