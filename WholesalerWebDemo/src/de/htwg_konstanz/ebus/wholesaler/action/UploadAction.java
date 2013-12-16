@@ -41,10 +41,9 @@ public class UploadAction implements IAction {
     public String execute(HttpServletRequest request, HttpServletResponse response,
             ArrayList<String> errorList) {
 
-        String parserName = "null";
         InputStream in = null;
 
-        // process only if its multipart content
+        // process only if its multiPart content
         if (ServletFileUpload.isMultipartContent(request)) {
             try {
                 FileItemFactory factory = new DiskFileItemFactory();
@@ -60,7 +59,7 @@ public class UploadAction implements IAction {
 
                     // Process a file upload
                     if (!item.isFormField()) {
-                        String fieldName = item.getFieldName();
+
                         String fileName = item.getName();
 
                         // xsd, xslt are also text/xml
@@ -115,32 +114,28 @@ public class UploadAction implements IAction {
                 
             } catch (FileUploadException ex) {
                 errorList.add("File Upload Failed due to " + ex);
-                return "importResult.jsp";
             } catch (IOException ex) {
                 // validate
                 errorList.add("ValidationError " + ex);
-                return "importResult.jsp";
 
             } catch (ParserConfigurationException ex) {
                 // from DocumentBuilder
                 errorList.add("DocumentBuilder Error: " + ex);
-                return "importResult.jsp";
 
             } catch (SAXException ex) {
                 // from validate
                 errorList.add("ValidationError " + ex);
-                return "importResult.jsp";
             } 
 
         } else {
             errorList.add("Sorry this Servlet only handles file upload request");
-            return "importResult.jsp";
         }
+        return "importResult.jsp";
 
     }
 
     public boolean accepts(String actionName) {
-        return actionName.equalsIgnoreCase(Constants.PARAM_UPLOAD);
+        return actionName.equalsIgnoreCase(Constants.ACTION_UPLOAD);
     }
 
 }

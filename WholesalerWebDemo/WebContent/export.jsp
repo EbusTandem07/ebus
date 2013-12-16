@@ -25,14 +25,14 @@
 	<%@ include file="error.jsp"%>
 
 	<form
-		action="<%=response.encodeURL("controllerservlet?action=export")%>"
+		action="<%=response.encodeURL("controllerservlet?action="+Constants.ACTION_EXPORT)%>"
 		method="POST">
 		<input name="Datei" type="submit" value="start export"> 
 		<input type="radio" name="exportType" value="XML" checked>XML <input type="radio" name="exportType" value="XHTML"> XHTML<br>
 	</form>
 
 	<form
-		action=" <%=response.encodeURL("controllerservlet?action=export")%>"
+		action=" <%=response.encodeURL("controllerservlet?action="+Constants.ACTION_EXPORT)%>"
 		method="post">
 		<p>
 			search<br> <input name="search" type="text" size="12"
