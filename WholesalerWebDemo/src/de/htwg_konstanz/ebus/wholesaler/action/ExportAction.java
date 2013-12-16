@@ -1,7 +1,6 @@
 package de.htwg_konstanz.ebus.wholesaler.action;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,9 +46,10 @@ public class ExportAction implements IAction {
             Document doc = all.createXMLdocument();
             DOMSource domSource = new DOMSource(doc);
             out = new ByteArrayOutputStream();
-            StringBuilder type = null;
+            String type = "";
             String option = request.getParameter("exportType");
-            System.out.println(option);
+            String applicationType = "";
+            
             // check radioButton if XML was selected, otherwise make XHTML export
             if (option.equals("XML")) {
 
@@ -57,10 +57,11 @@ public class ExportAction implements IAction {
                 transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 
                 transformer.transform(domSource, new StreamResult(out));
-                type = new StringBuilder("attachment; filename=exportProduct.xml");
+                type = "attachment; filename=exportProduct.xml";
+                applicationType = "application/xml";
 
             } else {
-                System.out.println("not xml");
+
                 Source xslt =
                         new StreamSource(
                                 "C:/Users/Valia/Documents/GitHub/ebus/WholesalerWebDemo/files/style3.xsl");
@@ -68,14 +69,15 @@ public class ExportAction implements IAction {
                 Transformer xformer = TransformerFactory.newInstance().newTransformer(xslt);
                 xformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
                 xformer.transform(domSource, new StreamResult(out));
-                type = new StringBuilder("attachment; filename=exportProduct.xhtml");
+                type = "attachment; filename=exportProduct.xhtml";
+                applicationType = "application/xhtml";
             }
 
-
-            response.setContentType("application/octet-stream");
+            response.setHeader("Content-Disposition", type);
+            response.setContentType(applicationType);
             response.setContentLength(out.size());
-            response.setHeader("Content-Disposition", type.toString());
             response.getWriter().write(out.toString());
+            
 
         } catch (IOException e) {
             // TODO Auto-generated catch block

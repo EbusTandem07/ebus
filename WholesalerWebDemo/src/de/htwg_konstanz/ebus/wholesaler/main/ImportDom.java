@@ -14,18 +14,13 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import de.htwg_konstanz.ebus.framework.wholesaler.api.bo.BOCountry;
 import de.htwg_konstanz.ebus.framework.wholesaler.api.bo.BOProduct;
-import de.htwg_konstanz.ebus.framework.wholesaler.api.bo.BOSalesPrice;
 import de.htwg_konstanz.ebus.framework.wholesaler.api.bo.BOSupplier;
-import de.htwg_konstanz.ebus.framework.wholesaler.api.boa.PriceBOA;
 import de.htwg_konstanz.ebus.framework.wholesaler.api.boa.ProductBOA;
 import de.htwg_konstanz.ebus.framework.wholesaler.api.boa.SupplierBOA;
 import de.htwg_konstanz.ebus.framework.wholesaler.api.boa._BaseBOA;
-import de.htwg_konstanz.ebus.framework.wholesaler.vo.Country;
 import de.htwg_konstanz.ebus.wholesaler.demo.util.Constants;
 
 public class ImportDom {
@@ -43,7 +38,7 @@ public class ImportDom {
         // get DocumentRoot -> <BMECAT>
         Element bmeCat = document.getDocumentElement();
         Element tmpSupplierName = (Element) bmeCat.getElementsByTagName("SUPPLIER_NAME").item(0);
-        String supplierName = tmpSupplierName.getTextContent();
+        String supplierName = tmpSupplierName.getNodeValue();
 
         // test if supplier already exists: !if -> createNewSupplier
         SupplierBOA supplierBOA = SupplierBOA.getInstance();
