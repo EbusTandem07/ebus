@@ -29,9 +29,9 @@ import org.xml.sax.SAXException;
 
 import de.htwg_konstanz.ebus.wholesaler.demo.IAction;
 import de.htwg_konstanz.ebus.wholesaler.demo.util.Constants;
+import de.htwg_konstanz.ebus.wholesaler.exceptions.NoFileChosenException;
+import de.htwg_konstanz.ebus.wholesaler.exceptions.SupplierNotExistsException;
 import de.htwg_konstanz.ebus.wholesaler.main.ImportDom;
-import de.htwg_konstanz.ebus.wholesaler.main.NoFileChosenException;
-import de.htwg_konstanz.ebus.wholesaler.main.SupplierNotExistsException;
 
 public class UploadAction implements IAction {
 
