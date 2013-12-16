@@ -30,6 +30,7 @@ import org.xml.sax.SAXException;
 import de.htwg_konstanz.ebus.wholesaler.demo.IAction;
 import de.htwg_konstanz.ebus.wholesaler.demo.util.Constants;
 import de.htwg_konstanz.ebus.wholesaler.main.ImportDom;
+import de.htwg_konstanz.ebus.wholesaler.main.NoFileChosenException;
 import de.htwg_konstanz.ebus.wholesaler.main.SupplierNotExistsException;
 
 public class UploadAction implements IAction {
@@ -61,7 +62,9 @@ public class UploadAction implements IAction {
                     if (!item.isFormField()) {
 
                         String fileName = item.getName();
-
+if(fileName.length() == 0) {
+    throw new NoFileChosenException();
+}
                         // xsd, xslt are also text/xml
                         String extension =
                                 fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length());
@@ -125,6 +128,8 @@ public class UploadAction implements IAction {
             } catch (SAXException ex) {
                 // from validate
                 errorList.add("ValidationError " + ex);
+            } catch (NoFileChosenException e) {
+                errorList.add("no file chosen");
             } 
 
         } else {
