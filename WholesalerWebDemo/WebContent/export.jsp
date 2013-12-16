@@ -16,7 +16,9 @@
 </head>
 <body>
 	<%@ include file="header.jsp"%>
+	<br>
 	<%@ include file="authentication.jsp"%>
+	<br>
 	<%@ include file="navigation.jspfragment"%>
 
 	<h1>Export</h1>
