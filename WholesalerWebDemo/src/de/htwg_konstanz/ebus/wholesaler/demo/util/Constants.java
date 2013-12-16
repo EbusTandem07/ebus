@@ -5,8 +5,8 @@ public class Constants {
     // XML schemata files
     public static final String XML_SCHEMA_BMECAT = "bmecat_new_catalog_1_2_simple_eps_V0.96.xsd";
     public static final String XML_SCHEMA_OPENTRANS = "openTRANS_1_0.xsd";
-    public static final String XSD_VALIDATION_FILEPATH = "C:/Users/Valia/Documents/GitHub/ebus/WholesalerWebDemo/bmecat_new_catalog_1_2_simple_without_NS.xsd";
-    public static final String XSLT_PATH = "C:/Users/Valia/Documents/GitHub/ebus/WholesalerWebDemo/files/style3.xsl";
+    public static final String XSD_VALIDATION_FILEPATH = "C:/Users/valia/git/ebus/WholesalerWebDemo/bmecat_new_catalog_1_2_simple_without_NS.xsd";
+    public static final String XSLT_PATH = "C:/Users/valia/git/ebus/WholesalerWebDemo/files/style3.xsl";
     
     public static final String ACTION_SHOW_ORDER_CUSTOMER_REQUEST_XML =
             "showOrderCustomerRequestXml";
@@ -32,6 +32,9 @@ public class Constants {
     public static final String ACTION_READ_WS_SETTINGS = "readWsSettings";
     public static final String ACTION_UPDATE_WS_SETTINGS = "updateWsSettings";
 
+    public static final String ACTION_UPLOAD = "upload";
+    public static final String ACTION_EXPORT = "export";
+    
     public static final String PARAM_SUPPLIER = "supplier";
     public static final String PARAM_CUSTOMER = "customer";
 
@@ -65,10 +68,6 @@ public class Constants {
     public static final String PARAM_XML_TEXT = "xmlText";
     public static final String PARAM_NAME_ACTION = "action";
     public static final String PARAM_ERROR_LIST = "errorList";
-
-    public static final String ACTION_UPLOAD = "upload";
-    public static final String ACTION_EXPORT = "export";
-    public static final String PARAM_XHTMLTRANSFORMATION = "xhtmlTransformation"; 
 
     public static final int USER_INTERNAL = 1;
     public static final int USER_CUSTOMER = 2;
