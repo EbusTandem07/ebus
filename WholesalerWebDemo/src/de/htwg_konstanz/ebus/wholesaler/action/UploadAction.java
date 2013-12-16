@@ -30,6 +30,7 @@ import org.xml.sax.SAXException;
 import de.htwg_konstanz.ebus.wholesaler.demo.IAction;
 import de.htwg_konstanz.ebus.wholesaler.demo.util.Constants;
 import de.htwg_konstanz.ebus.wholesaler.main.ImportDom;
+import de.htwg_konstanz.ebus.wholesaler.main.SupplierNotExistsException;
 
 public class UploadAction implements IAction {
 
@@ -101,14 +102,15 @@ public class UploadAction implements IAction {
                             new ImportDom(document);
                         } catch (FactoryConfigurationError e) {
                             errorList.add("couldnt convert");
-                        } catch (Exception e) {
+                        } catch (SupplierNotExistsException e) {
+                            errorList.add("Supplier not found in database");
+                        }catch (Exception e) {
                             errorList.add("error occured, some Elements couldnt be found in database");
                         }
                     }
 
                 }
-                
-
+                //render Result, all errors are already in errorList
                 return "importResult.jsp";
                 
             } catch (FileUploadException ex) {
@@ -128,8 +130,7 @@ public class UploadAction implements IAction {
                 // from validate
                 errorList.add("ValidationError " + ex);
                 return "importResult.jsp";
-
-            }
+            } 
 
         } else {
             errorList.add("Sorry this Servlet only handles file upload request");

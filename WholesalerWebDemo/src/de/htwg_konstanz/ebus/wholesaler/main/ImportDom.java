@@ -64,8 +64,9 @@ public class ImportDom {
 
         // create new Supplier
         if (bOSupplier == null) {
-         //saves new Supplier and return corresponding supplierNumber
-          supplierNumber = SupplierHelper.saveNewSupplier(supplierName);
+            // saves new Supplier and return corresponding supplierNumber
+           // supplierNumber = SupplierHelper.saveNewSupplier(supplierName);
+            throw new SupplierNotExistsException();
         }
 
         // get all articles as Nodelist from uploaded xml
@@ -122,16 +123,12 @@ public class ImportDom {
                 _BaseBOA.getInstance().commit();
                 productBOA.saveOrUpdate(bOProduct);
 
-
                 Integer materialnumber = null;
                 materialnumber = bOProduct.getMaterialNumber();
-
-
 
                 // get pricedetails from article
                 Element priceDetails =
                         (Element) article.getElementsByTagName("ARTICLE_PRICE_DETAILS").item(0);
-
 
                 // loop over all ARTICLE_PRICE to save in table
                 NodeList articlePriceList = priceDetails.getElementsByTagName("ARTICLE_PRICE");
@@ -154,7 +151,8 @@ public class ImportDom {
                         NodeList territoryList = artikelPrice.getElementsByTagName("TERRITORY");
 
                         // save saleprice for each territory
-                        SalesPriceHelper.saveSalesPrice(territoryList, bOProduct, taxValue, price_amount_value, price_type);
+                        SalesPriceHelper.saveSalesPrice(territoryList, bOProduct, taxValue,
+                                price_amount_value, price_type);
 
                     }
 
@@ -187,10 +185,7 @@ public class ImportDom {
 
     public BigDecimal getBigD(Element element) {
         double tempPRICE_AMOUNT = Double.valueOf(element.getFirstChild().getNodeValue());
-
-
         BigDecimal price_amount_value = BigDecimal.valueOf(tempPRICE_AMOUNT);
-
         return price_amount_value;
     }
 
