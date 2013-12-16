@@ -12,9 +12,10 @@
 #*.swp
 #*~.nib
 #local.properties
-#.classpath
-#.settings/
-#.loadpath
+.classpath
+.settings/
+.loadpath
+*javadoc/
 
 # External tool builders
 .externalToolBuilders/
