@@ -60,8 +60,8 @@ public class ImportDom {
         // create new Supplier
         if (bOSupplier == null) {
             // saves new Supplier and return corresponding supplierNumber
-            // supplierNumber = SupplierHelper.saveNewSupplier(supplierName);
-            throw new SupplierNotExistsException();
+             supplierNumber = SupplierHelper.saveNewSupplier(supplierName);
+            //throw new SupplierNotExistsException();
         }
 
         // get all articles as Nodelist from uploaded xml
@@ -146,7 +146,7 @@ public class ImportDom {
                         NodeList territoryList = artikelPrice.getElementsByTagName("TERRITORY");
 
                         // save salesPrice for each territory
-                        SalesPriceHelper.saveSalesPrice(territoryList, bOProduct, taxValue,
+                        SalesPurchasePriceHelper.saveSalesPurchasePrice(territoryList, bOProduct, taxValue,
                                 price_amount_value, price_type);
 
                     }
