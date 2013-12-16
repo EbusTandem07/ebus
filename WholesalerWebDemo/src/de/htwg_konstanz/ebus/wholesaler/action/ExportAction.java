@@ -59,7 +59,7 @@ public class ExportAction implements IAction {
             // check radioButton if XML was selected, otherwise make XHTML export
             //or if normal xml
             if (checkXML(search, option)) {
-                System.out.println(search);
+
                 Transformer transformer = TransformerFactory.newInstance().newTransformer();
                 transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 
@@ -112,7 +112,7 @@ public class ExportAction implements IAction {
 
         }
 
-        return "exportResult.jsp";
+        return null;
 
     }
 
@@ -121,9 +121,10 @@ public class ExportAction implements IAction {
     }
     
     public boolean checkXML(String search, String option) {
+        System.out.println(option);
         if(search != null) {
             return true;
-        } else if(option != null) {
+        } else if(option != null && option == "XML") {
             return true;
         } else {
             return false;
